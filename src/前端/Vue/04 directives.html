@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>指令</title>
+    <script src="js/vue2.js"></script>
+</head>
+<body>
+    <!--
+        指令的职责是，当表达式的值改变时，将其产生的连带影响，响应式地作用于 DOM
+        1. v-if
+        2. v-bind
+        3. v-on
+        4. v-for
+    -->
+    <div id="app">
+        <p>seen:<span v-if="seen">{{message}}</span></p>
+        <p>!seen:<span v-if="!seen">{{message}}</span></p>
+        <hr>
+
+        <button v-on:click="show1" v-bind:title="title">click me</button>
+        <button @click="show2('i am show2')" :title="title">click me</button>
+        <hr>
+
+        <ul>
+            <li v-for="item in arr">{{item.text}}</li>
+        </ul>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                seen: true,
+                title: 'i am title',
+                message: 'hello vue',
+                arr:[{id:1, text:'aaa'},{id:2, text:'bbb'}]
+            },
+            methods: {
+                show1(arg) {
+                    console.log(this);
+                    console.log(arg);
+                },
+                show2:(arg) => {
+                    console.log(this);
+                    console.log(arg);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

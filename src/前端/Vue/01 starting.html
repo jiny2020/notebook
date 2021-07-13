@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue起步</title>
+    <script src="js/vue2.js"></script>
+</head>
+
+<!--
+    1. 模板语法
+    2. v- 指令，事件，属性，for，双向绑定
+    3. 组件定义, props
+-->
+
+<body>
+    <div id="app">
+        <p>作者：{{name}} <span v-on:click="openWebsite">官网</span></p>
+        <img v-bind:title="name" :src="imnage" @click="openWebsite(1)">
+        <ul>
+            <Features v-for="item in features" :ver="version" :feature="item" :key="item.id"></Features>
+        </ul>
+        <input type="text" v-model="message" @change="showMessage" />
+        <div>{{ message }}</div>
+    </div>
+    <script>
+        Vue.component('Features', {
+            props: ['ver', 'feature'], // 通过属性父组件给子组件传递数据
+            template: '<li :title="name" @click="show">版本({{ver}})：{{feature.text}}</li>',
+            data() {
+                return {
+                    name: 'Vue特征组件'
+                };
+            },
+            methods: {
+                show() {
+                    console.log(this.name);
+                    console.log(this.ver);
+                    //this.ver = "3.0"; // 不会改变父组件的version
+                    this.feature.text = '子组件通过引用属性改变父组件的数据';
+                }
+            }
+        });
+
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                name: '尤雨溪',
+                imnage: './assets/yyx.jpg',
+                message: 'hello vue',
+                version: '2.0',
+                features: [{
+                    id: 1,
+                    text: '一个前端框架'
+                },
+                {
+                    id: 2,
+                    text: '数据驱动'
+                }
+                ]
+            },
+            methods: {
+                openWebsite(arg) {
+                    console.log(arg);
+                    window.open('https://v3.cn.vuejs.org/');
+                },
+                showMessage() {
+                    console.log(this.message);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
